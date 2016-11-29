@@ -18,10 +18,14 @@ export type TypeaheadCompletion =
     ElementCompletion | AttributesCompletion | AttributeValuesCompletion;
 export interface ElementCompletion {
   kind: 'element-tags';
-  elements: {
-    tagname: string,
-    description: string, expandTo?: string, expandToSnippet?: string
-  }[];
+  elements: ElementSnippet[];
+}
+export interface ElementSnippet {
+  tagname: string;
+  description: string;
+  expandTo?: string;
+  expandToSnippet?: string;
+  prefix?: string;
 }
 export interface AttributesCompletion {
   kind: 'attributes';

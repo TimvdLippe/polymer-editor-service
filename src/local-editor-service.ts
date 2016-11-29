@@ -21,6 +21,8 @@ import {Warning, WarningCarryingException} from 'polymer-analyzer/lib/warning/wa
 import {getLocationInfoForPosition, isPositionInsideRange} from './ast-from-source-position';
 import {AttributeCompletion, EditorService, SourcePosition, TypeaheadCompletion} from './editor-service';
 
+import {snippets} from './snippets';
+
 export class LocalEditorService extends EditorService {
   private _analyzer: Analyzer;
   constructor(options: AnalyzerOptions) {
@@ -85,7 +87,7 @@ export class LocalEditorService extends EditorService {
           Array.from(document.getByKind('element')).filter(e => e.tagName);
       return {
         kind: 'element-tags',
-        elements: elements.map(e => {
+        elements: snippets.concat(elements.map(e => {
           const attributesSpace = e.attributes.length > 0 ? ' ' : '';
           return {
             tagname: e.tagName!,
@@ -97,7 +99,7 @@ export class LocalEditorService extends EditorService {
                 this._generateAutoCompletionForElement(e) :
                 undefined
           };
-        })
+        }))
       };
     }
 

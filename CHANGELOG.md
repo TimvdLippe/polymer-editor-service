@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
 <!-- Please document PR changes here. -->
+### Added
+
+* Added standard template definitions for autocompletion.
 
 ### Added
 

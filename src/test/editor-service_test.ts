@@ -28,6 +28,8 @@ import {AttributesCompletion, EditorService, ElementCompletion} from '../editor-
 import {LocalEditorService} from '../local-editor-service';
 import {RemoteEditorService} from '../remote-editor-service';
 
+import {snippets} from '../snippets';
+
 chai.use(require('chai-subset'));
 
 function editorTests(editorFactory: (basedir: string) => EditorService) {
@@ -41,7 +43,7 @@ function editorTests(editorFactory: (basedir: string) => EditorService) {
 
   const elementTypeahead: ElementCompletion = {
     kind: 'element-tags',
-    elements: [
+    elements: snippets.concat([
       {
         tagname: 'behavior-test-elem',
         description: 'An element to test out behavior inheritance.',
@@ -84,13 +86,14 @@ function editorTests(editorFactory: (basedir: string) => EditorService) {
         expandTo: undefined,
         expandToSnippet: undefined
       },
-    ]
+    ])
   };
   // Like elementTypeahead, but we also want to add a leading < because we're
   // in a context where we don't have one.
   const emptyStartElementTypeahead = Object.assign({}, elementTypeahead);
   emptyStartElementTypeahead.elements =
       emptyStartElementTypeahead.elements.map(e => {
+        if (e.prefix) return e;
         let copy = Object.assign({}, e);
         let space = '';
         const elementsWithAttributes =
@@ -520,7 +523,7 @@ function editorTests(editorFactory: (basedir: string) => EditorService) {
             column: 0 /* after the space after the element name */
           }),
           {
-            'elements': [
+            'elements': snippets.concat([
               {
                 'description': '',
                 'expandTo': '<slot-test-elem></slot-test-elem>',
@@ -538,7 +541,7 @@ function editorTests(editorFactory: (basedir: string) => EditorService) {
                     `<slot-one-test-elem>$1</slot-one-test-elem>$0`,
                 'tagname': 'slot-one-test-elem'
               }
-            ],
+            ]),
             'kind': 'element-tags'
           });
     });
